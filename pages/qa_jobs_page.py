@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.action_chains import ActionChains
 from pages.base_page import BasePage
 import time
 
@@ -18,10 +19,12 @@ class QAJobsPage(BasePage):
     
     # Job listings
     JOB_LIST = (By.CSS_SELECTOR, "div.position-list-item-wrapper")
+    VIEW_ROLE_BUTTON = (By.XPATH, "//a[contains(text(), 'View Role')]")
 
     def __init__(self, driver):
         super().__init__(driver)
         self.wait = WebDriverWait(driver, 20)
+        self.actions = ActionChains(self.driver)
 
     def navigate_to_qa_careers(self):
         """Navigate directly to QA Careers page"""
@@ -103,6 +106,78 @@ class QAJobsPage(BasePage):
         except Exception as e:
             print("Failed to apply filters:", str(e))
             self.take_screenshot("apply_filters_failed")
+            return False
+
+    def hover_and_click_view_role(self):
+        """Hover over a job listing and click the View Role button"""
+        try:
+            # Wait for job listings and get the first one
+            job_listings = self.wait.until(
+                EC.presence_of_all_elements_located(self.JOB_LIST)
+            )
+            
+            if not job_listings:
+                print("No job listings found")
+                return False
+            
+            # Get the first job listing
+            job = job_listings[0]
+            
+            # Scroll the job into view
+            self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", job)
+            time.sleep(2)
+            
+            # Hover over the job listing
+            print("Hovering over job listing...")
+            self.actions.move_to_element(job).perform()
+            time.sleep(2)
+            
+            try:
+                # Try to find the View Role button within this specific job listing
+                view_role_button = job.find_element(By.XPATH, ".//a[contains(text(), 'View Role')]")
+                print("Found View Role button")
+            except Exception as e:
+                print("Could not find View Role button in the first job listing, trying next one...")
+                # If not found in first job, try the second one
+                if len(job_listings) > 1:
+                    job = job_listings[1]
+                    self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", job)
+                    time.sleep(2)
+                    self.actions.move_to_element(job).perform()
+                    time.sleep(2)
+                    view_role_button = job.find_element(By.XPATH, ".//a[contains(text(), 'View Role')]")
+                else:
+                    raise Exception("No View Role button found in any job listing")
+            
+            # Store the current window handle
+            current_window = self.driver.current_window_handle
+            
+            # Click the button
+            print("Clicking View Role button...")
+            view_role_button.click()
+            time.sleep(5)
+            
+            # Switch to the new window
+            print("Available window handles:", self.driver.window_handles)
+            for window_handle in self.driver.window_handles:
+                if window_handle != current_window:
+                    self.driver.switch_to.window(window_handle)
+                    break
+            
+            # Check if we're on the Lever application page
+            current_url = self.driver.current_url
+            print(f"Current URL: {current_url}")
+            
+            if "jobs.lever.co" in current_url or "lever.co" in current_url:
+                print("Successfully redirected to Lever application page")
+                return True
+            else:
+                print("Not on Lever application page")
+                return False
+            
+        except Exception as e:
+            print("Failed to hover and click View Role:", str(e))
+            self.take_screenshot("view_role_failed")
             return False
 
     def verify_job_listings(self):

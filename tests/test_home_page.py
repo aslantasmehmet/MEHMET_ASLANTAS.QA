@@ -95,3 +95,25 @@ def test_qa_jobs_details(driver):
         # Take screenshot if test fails
         qa_jobs_page.take_screenshot("test_qa_jobs_details")
         raise e
+
+def test_qa_job_application_redirect(driver):
+    try:
+        # Initialize QA jobs page
+        qa_jobs_page = QAJobsPage(driver)
+
+        # Navigate to QA careers page
+        qa_jobs_page.navigate_to_qa_careers()
+
+        # Click See all QA jobs button
+        assert qa_jobs_page.click_see_all_qa_jobs(), "Failed to click 'See all QA jobs' button"
+
+        # Apply location and department filters
+        assert qa_jobs_page.apply_filters(), "Failed to apply filters"
+
+        # Hover over job listing and click View Role
+        assert qa_jobs_page.hover_and_click_view_role(), "Failed to click View Role or redirect to Lever application page"
+
+    except Exception as e:
+        # Take screenshot if test fails
+        qa_jobs_page.take_screenshot("test_qa_job_application_redirect")
+        raise e
