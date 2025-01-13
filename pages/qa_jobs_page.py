@@ -105,6 +105,48 @@ class QAJobsPage(BasePage):
             self.take_screenshot("apply_filters_failed")
             return False
 
+    def verify_job_listings(self):
+        """Verify that all job listings match the selected filters"""
+        try:
+            # Wait for job listings to be present and scroll to them
+            job_listings = self.wait.until(
+                EC.presence_of_all_elements_located(self.JOB_LIST)
+            )
+            
+            if not job_listings:
+                print("No job listings found")
+                return False
+                
+            print(f"Found {len(job_listings)} job listings")
+            
+            # Check each job listing
+            for job in job_listings:
+                try:
+                    # Get the full text of the job listing
+                    job_text = job.text
+                    print(f"\nJob listing text: {job_text}")
+                    
+                    # Check if the required texts are in the job listing
+                    if "Istanbul, Turkey" not in job_text:
+                        print("Job listing does not contain 'Istanbul, Turkey'")
+                        return False
+                        
+                    if "Quality Assurance" not in job_text:
+                        print("Job listing does not contain 'Quality Assurance'")
+                        return False
+                        
+                except Exception as e:
+                    print(f"Failed to check job listing: {str(e)}")
+                    return False
+            
+            print("\nAll job listings match the filter criteria!")
+            return True
+            
+        except Exception as e:
+            print("Failed to verify job listings:", str(e))
+            self.take_screenshot("verify_jobs_failed")
+            return False
+
     def are_job_positions_available(self):
         """Check if there are any job positions listed"""
         try:

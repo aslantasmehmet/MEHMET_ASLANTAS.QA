@@ -73,3 +73,25 @@ def test_qa_jobs_istanbul(driver):
         # Take screenshot if test fails
         qa_jobs_page.take_screenshot("test_qa_jobs_istanbul")
         raise e
+
+def test_qa_jobs_details(driver):
+    try:
+        # Initialize QA jobs page
+        qa_jobs_page = QAJobsPage(driver)
+
+        # Navigate to QA careers page
+        qa_jobs_page.navigate_to_qa_careers()
+
+        # Click See all QA jobs button
+        assert qa_jobs_page.click_see_all_qa_jobs(), "Failed to click 'See all QA jobs' button"
+
+        # Apply location and department filters
+        assert qa_jobs_page.apply_filters(), "Failed to apply filters"
+
+        # Verify job listing details
+        assert qa_jobs_page.verify_job_listings(), "Job listings do not match filter criteria"
+
+    except Exception as e:
+        # Take screenshot if test fails
+        qa_jobs_page.take_screenshot("test_qa_jobs_details")
+        raise e
