@@ -1,33 +1,33 @@
 # Insider Web Test Automation Project
 
-Bu proje, Insider'ın web sitesindeki kariyer sayfası ve QA pozisyonları için test otomasyonu içerir. Python ve Selenium WebDriver kullanılarak geliştirilmiştir.
+This project includes test automation for the career page and QA positions on Insider's website. It was developed using Python and Selenium WebDriver.
 
-## 🎯 Test Senaryoları
+## 🎯 Test Scenarios
 
-### 1. Kariyer Sayfası Testi
-- Ana sayfaya git ve "Company" menüsünden "Careers" sayfasına eriş
-- Careers sayfasındaki tüm bölümlerin görünür olduğunu kontrol et
+### 1. Career Page Test
+- Go to the home page and access the “Careers” page from the “Company” menu
+- Check that all sections on the Careers page are visible
 
-### 2. QA İş İlanları Testi (Istanbul)
-- QA Careers sayfasına git
-- "See all QA jobs" butonuna tıkla
-- Lokasyon olarak "Istanbul, Turkey" ve departman olarak "Quality Assurance" seç
-- İş ilanlarının listelendiğini kontrol et
+### 2. QA Jobs Test (Istanbul)
+- Go to QA Careers
+- Click on “See all QA jobs”
+- Choose “Istanbul, Turkey” as location and “Quality Assurance” as department
+- Check that job vacancies are listed
 
-### 3. QA İş İlanı Detay Kontrolü
-- QA Careers sayfasına git ve filtreleri uygula
-- Listelenen iş ilanlarının:
-  - Position: "Quality Assurance" içerdiğini
-  - Department: "Quality Assurance" içerdiğini
-  - Location: "Istanbul, Turkey" içerdiğini kontrol et
+### 3. QA Job Posting Detail Check
+- Go to QA Careers and apply filters
+- Listed job vacancies:
+  - Position: “Quality Assurance” includes
+  - Department: “Quality Assurance” includes
+  - Check that it contains Location: “Istanbul, Turkey”
 
-### 4. İş Başvuru Sayfası Yönlendirme Testi
-- QA Careers sayfasına git ve filtreleri uygula
-- Bir iş ilanının üzerine gel (hover)
-- Çıkan "View Role" butonuna tıkla
-- Lever Application formuna yönlendirildiğini doğrula
-
-## 🛠️ Kullanılan Teknolojiler
+### 4. Job Application Page Redirect Test
+- Go to QA Careers and apply filters
+- Hover over a job advertisement (hover)
+- Click on the “View Role” button that appears
+- Verify that you were redirected to the Lever Application form
+- 
+## 🛠️ Technologies Used
 
 - Python 3.13.0
 - Selenium WebDriver
@@ -43,26 +43,26 @@ pytest-html==4.1.1
 webdriver_manager==4.0.1
 ```
 
-## 🚀 Kurulum
+## 🚀 Installation
 
-1. Projeyi klonlayın:
+1. Clone the project:
 ```bash
 git clone [repository-url]
 ```
 
-2. Gerekli paketleri yükleyin:
+2. Install the required packages:
 ```bash
 pip install -r requirements.txt
 ```
 
-## 🎮 Testleri Çalıştırma
+## 🎮 Running Tests
 
-Tüm testleri çalıştırmak için:
+To run all the tests:
 ```bash
 pytest tests/test_home_page.py -v
 ```
 
-Belirli bir testi çalıştırmak için:
+To run a specific test:
 ```bash
 pytest tests/test_home_page.py::test_careers_page_sections -v
 pytest tests/test_home_page.py::test_qa_jobs_istanbul -v
@@ -70,31 +70,31 @@ pytest tests/test_home_page.py::test_qa_jobs_details -v
 pytest tests/test_home_page.py::test_qa_job_application_redirect -v
 ```
 
-## 📁 Proje Yapısı
+## 📁 Project Structure
 
 ```
 MEHMET_ASLANTAS.QA/
 ├── pages/
-│   ├── base_page.py       # Temel sayfa fonksiyonları
-│   ├── home_page.py       # Ana sayfa işlemleri
-│   ├── careers_page.py    # Kariyer sayfası işlemleri
-│   └── qa_jobs_page.py    # QA iş ilanları sayfası işlemleri
+│   ├── base_page.py       # Basic page functions
+│   ├── home_page.py       # Home page operations
+│   ├── careers_page.py    # Career page operations
+│   └── qa_jobs_page.py    # QA job postings page operations
 ├── tests/
-│   ├── conftest.py        # Pytest konfigürasyonu
-│   └── test_home_page.py  # Test senaryoları
-├── requirements.txt       # Gerekli paketler
-└── README.md             # Proje dokümantasyonu
+│   ├── conftest.py        # Pytest configuration
+│   └── test_home_page.py  # Test scenarios
+├── requirements.txt       # Required packages
+└── README.md             # Project documentation
 ```
 
-## ✨ Özellikler
+## ✨ Features
 
-- Page Object Model (POM) tasarım deseni kullanıldı
-- Explicit wait ile güvenilir element beklemeleri
-- Detaylı hata ayıklama ve screenshot alma
-- Temiz ve okunabilir kod yapısı
-- Her senaryo için ayrı test fonksiyonları
+- Page Object Model (POM) design pattern was used
+- Reliable element waits with explicit wait
+- Detailed debugging and screenshot taking
+- Clean and readable code structure
+- Separate test functions for each scenario
 
 ## 👤 Yazar
 
-Mehmet ASLANTAŞ
+Mehmet ASLANTAS
 QA Engineer
